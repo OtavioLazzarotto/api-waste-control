@@ -11,7 +11,7 @@ export interface UserProps {
   name: string;
   username: string;
   password: string;
-  roles: Roles.USER;
+  roles: Roles;
   createdAt: Date;
 }
 
