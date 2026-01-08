@@ -12,11 +12,11 @@ FoodByMeal -  Alimento por refeicao
 
 - Passos do projeto
 
--- [x] Realizar o CRUD para FOOD
--- [x] Realizar o CRUD para CATEGORY
--- [x] Realizar o CRUD para MEAL
--- [ ] Realizar o CRUD para MEALITEM
--- [ ] Realizar o CRUD para WASTE
--- [ ] Realizar o CRUD para USER
--- [ ] Reaizar a AUTENTICAO
--- [ ] Realizar o tratamento de Erros
+- [x] Realizar o CRUD para FOOD
+- [x] Realizar o CRUD para CATEGORY
+- [x] Realizar o CRUD para MEAL
+- [ ] Realizar o CRUD para MEALITEM
+- [ ] Realizar o CRUD para WASTE
+- [ ] Realizar o CRUD para USER
+- [ ] Reaizar a AUTENTICAO
+- [ ] Realizar o tratamento de Erros
