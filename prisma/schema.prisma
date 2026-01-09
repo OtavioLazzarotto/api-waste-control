@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RolesType {
+  ADMIN
+  USER
+}
+
+enum TurnsType {
+  AFTERNOON
+  DINNER
+}
+
+enum ReasonType {
+  LEFTOVER
+  ITSPOILED
+  ERROR_PREPARATION
+}
+
+model User {
+  id       String    @id @default(uuid())
+  name     String
+  username String    @unique
+  password String
+  roles    RolesType
+  meals    Meal[]
+
+  @@map("users ")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  food      Food[]
+
+  @@map("categories")
+}
+
+model Food {
+  id         String   @id @default(uuid())
+  name       String
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  categoryId String   @map("category_id")
+
+  category  Category   @relation(fields: [categoryId], references: [id])
+  mealItems MealItem[]
+
+  @@map("foods")
+}
+
+model Meal {
+  id        String    @id @default(uuid())
+  date      DateTime
+  turn      TurnsType
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  userId    String    @map("user_id")
+
+  user      User       @relation(fields: [userId], references: [id])
+  mealItems MealItem[]
+
+  @@map("meals")
+}
+
+model MealItem {
+  id                String    @id @default(uuid())
+  quantityServed    Decimal   @map("quantity_served") @db.Decimal(10, 2)
+  quantityConsumeds Decimal   @map("quantity_consumeds") @db.Decimal(10, 2)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime? @updatedAt @map("updated_at")
+  mealId            String    @map("meal_id")
+  foodId            String    @map("food_id")
+
+  meal   Meal    @relation(fields: [mealId], references: [id])
+  food   Food    @relation(fields: [foodId], references: [id])
+  wastes Waste[]
+
+  @@map("mealItens")
+}
+
+model Waste {
+  id         String     @id @default(uuid())
+  quantity   Int
+  reason     ReasonType
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime?  @updatedAt @map("updated_at")
+  mealItemId String     @map("meal_item_id")
+
+  mealItem MealItem @relation(fields: [mealItemId], references: [id])
+
+  @@map("wastes")
+}

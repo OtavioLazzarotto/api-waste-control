@@ -7,7 +7,7 @@ User - Usuário
 Food - Alimento
 Waste - Desperdicio
 Meal - Refeicao
-FoodByMeal -  Alimento por refeicao
+MealItem -  Alimento por refeicao
 
 
 - Passos do projeto
