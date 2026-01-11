@@ -7,4 +7,4 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=waste-controler-api
+      - POSTGRES_DB=waste-control-api
