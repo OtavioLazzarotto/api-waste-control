@@ -13,7 +13,7 @@ import { AuthModule } from './infra/auth/auth.module';
       validate: (env) => envSchema.parse(env),
       isGlobal: true,
     }),
-    AuthModule,
+    AuthModule
   ],
   controllers: [
     CreateAccountController,
