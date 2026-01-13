@@ -1,14 +1,19 @@
-import { Category } from "@/domain/enterprise/entities/category";
-import { CategoriesRepository } from "../repositories/categories-repository";
+import { Category } from '@/domain/enterprise/entities/category';
+import { CategoriesRepository } from '../repositories/categories-repository';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Either, left, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
-export interface GetCategoryByIdUseCaseRequest {
+interface GetCategoryByIdUseCaseRequest {
   id: string;
 }
 
-export interface GetCategoryByIdUseCaseResponse {
-  category: Category;
-}
+type GetCategoryByIdUseCaseResponse = Either<
+  ResourceNotFoundError,
+  { category: Category }
+>;
 
+@Injectable()
 export class GetCategoryByIdUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {}
 
@@ -18,11 +23,11 @@ export class GetCategoryByIdUseCase {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
-      throw new Error('Category not found');
+      return left(new ResourceNotFoundError());
     }
 
-    return {
+    return right({
       category,
-    };
+    });
   }
 }

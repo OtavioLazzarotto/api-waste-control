@@ -17,11 +17,14 @@ describe('Get By Id Waste', () => {
 
     await inMemoryWastesRepository.create(newWaste);
 
-    const { waste } = await sut.execute({
+    const result = await sut.execute({
       wasteId: 'waste-1',
     });
 
-    expect(waste.id).toBeTruthy();
-    expect(waste.id).toEqual(newWaste.id);
+    expect(result.value).toMatchObject({
+      waste: expect.objectContaining({
+        id: newWaste.id,
+      }),
+    });
   });
 });

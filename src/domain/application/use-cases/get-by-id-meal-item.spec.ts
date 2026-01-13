@@ -18,11 +18,14 @@ describe('Get By Id Meal Item', () => {
 
     await inMemoryMealItensRepository.create(newMealItem);
 
-    const { mealItem } = await sut.execute({
+    const result = await sut.execute({
       mealItemId: 'mealItem-1',
     });
 
-    expect(mealItem.id).toBeTruthy();
-    expect(mealItem.id).toEqual(newMealItem.id);
+    expect(result.value).toMatchObject({
+      mealItem: expect.objectContaining({
+        id: newMealItem.id,
+      }),
+    });
   });
 });

@@ -1,6 +1,7 @@
-import { Roles, User } from "@/domain/enterprise/entities/user";
-import { UsersRepository } from "../repositories/users-repository";
-import { Injectable } from "@nestjs/common";
+import { Roles, User } from '@/domain/enterprise/entities/user';
+import { UsersRepository } from '../repositories/users-repository';
+import { Injectable } from '@nestjs/common';
+import { Either, right } from '@/core/either';
 
 interface CreateUserUseCaseRequest {
   name: string;
@@ -9,9 +10,12 @@ interface CreateUserUseCaseRequest {
   roles: Roles;
 }
 
-interface CreateUserUseCaseResponse {
-  user: User
-}
+type CreateUserUseCaseResponse = Either<
+  null,
+  {
+    user: User;
+  }
+>;
 
 @Injectable()
 export class CreateUserUseCase {
@@ -21,20 +25,19 @@ export class CreateUserUseCase {
     name,
     username,
     password,
-    roles
+    roles,
   }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
-
     const user = User.create({
       name,
       username,
       password,
-      roles
+      roles,
     });
 
     await this.usersRepository.create(user);
 
-    return {
+    return right({
       user,
-    };
+    });
   }
 }

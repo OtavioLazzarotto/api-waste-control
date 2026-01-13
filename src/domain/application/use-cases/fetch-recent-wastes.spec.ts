@@ -1,6 +1,6 @@
-import { makeWaste } from "../../../../test/factories/make-waste";
-import { InMemoryWastesRepository } from "../../../../test/repositories/in-memory-wastes-repository";
-import { FetchRecentWastesUseCase } from "./fetch-recent-wastes";
+import { makeWaste } from '../../../../test/factories/make-waste';
+import { InMemoryWastesRepository } from '../../../../test/repositories/in-memory-wastes-repository';
+import { FetchRecentWastesUseCase } from './fetch-recent-wastes';
 
 let inMemoryWastesRepository: InMemoryWastesRepository;
 let sut: FetchRecentWastesUseCase;
@@ -22,11 +22,11 @@ describe('Fetch Recent Wastes', () => {
       makeWaste({ createdAt: new Date(2022, 0, 23) }),
     );
 
-    const { wastes } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
 
-    expect(wastes).toEqual([
+    expect(result.value?.wastes).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
@@ -38,10 +38,10 @@ describe('Fetch Recent Wastes', () => {
       await inMemoryWastesRepository.create(makeWaste());
     }
 
-    const { wastes } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
 
-    expect(wastes).toHaveLength(2);
+    expect(result.value?.wastes).toHaveLength(2);
   });
 });

@@ -1,15 +1,19 @@
-import { Waste } from "@/domain/enterprise/entities/waste";
-import { WastesRepository } from "../repositories/wastes-repository";
+import { Waste } from '@/domain/enterprise/entities/waste';
+import { WastesRepository } from '../repositories/wastes-repository';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-
-export interface GetWasteByIdUseCaseRequest {
+interface GetWasteByIdUseCaseRequest {
   wasteId: string;
 }
 
-export interface GetWasteByIdUseCaseResponse {
-  waste: Waste;
-}
+type GetWasteByIdUseCaseResponse = Either<
+  ResourceNotFoundError,
+  { waste: Waste }
+>;
 
+@Injectable()
 export class GetWasteByIdUseCase {
   constructor(private wastesRepository: WastesRepository) {}
 
@@ -19,11 +23,11 @@ export class GetWasteByIdUseCase {
     const waste = await this.wastesRepository.findById(wasteId);
 
     if (!waste) {
-      throw new Error('Waste not found');
+      return left(new ResourceNotFoundError());
     }
 
-    return {
+    return right({
       waste,
-    };
+    });
   }
 }

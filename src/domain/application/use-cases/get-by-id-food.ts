@@ -1,14 +1,16 @@
 import { Food } from '@/domain/enterprise/entities/food';
 import { FoodsRepository } from '../repositories/foods-repository';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface GetFoodByIdUseCaseRequest {
+interface GetFoodByIdUseCaseRequest {
   id: string;
 }
 
-export interface GetFoodByIdUseCaseResponse {
-  food: Food;
-}
+type GetFoodByIdUseCaseResponse = Either<ResourceNotFoundError, { food: Food }>;
 
+@Injectable()
 export class GetFoodByIdUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
@@ -18,11 +20,11 @@ export class GetFoodByIdUseCase {
     const food = await this.foodsRepository.findById(id);
 
     if (!food) {
-      throw new Error('Food not found');
+      return left(new ResourceNotFoundError());
     }
 
-    return {
+    return right({
       food,
-    };
+    });
   }
 }

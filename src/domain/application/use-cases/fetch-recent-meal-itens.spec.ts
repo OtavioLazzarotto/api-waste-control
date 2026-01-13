@@ -23,26 +23,26 @@ describe('Fetch Recent Meal itens', () => {
       makeMealItem({ createdAt: new Date(2022, 0, 23) }),
     );
 
-    const { mealItens } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
 
-    expect(mealItens).toEqual([
+    expect(result.value?.mealItens).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
     ]);
   });
 
-  it('should be able to fetch paginated recent meals', async () => {
+  it('should be able to fetch paginated recent meals itens', async () => {
     for (let i = 1; i <= 22; i++) {
       await inMemoryMealItensRepository.create(makeMealItem());
     }
 
-    const { mealItens } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
 
-    expect(mealItens).toHaveLength(2);
+    expect(result.value?.mealItens).toHaveLength(2);
   });
 });

@@ -13,9 +13,11 @@ describe('Create category', () => {
 
   it('should be able to create an category', async () => {
     const newCategory = makeCategory();
-    const { category } = await sut.execute(newCategory);
+    const result = await sut.execute(newCategory);
 
-    expect(category.id).toBeTruthy();
-    expect(inMemoryCategoriesRepository.items[0].id).toEqual(category.id);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryCategoriesRepository.items[0]).toEqual(
+      result.value?.category,
+    );
   });
 });

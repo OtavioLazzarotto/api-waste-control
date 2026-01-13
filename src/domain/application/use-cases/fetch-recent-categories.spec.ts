@@ -22,11 +22,11 @@ describe('Fetch Recent Foods', () => {
       makeCategory({ createdAt: new Date(2022, 0, 23) }),
     );
 
-    const { categories } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
 
-    expect(categories).toEqual([
+    expect(result.value?.categories).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
@@ -38,10 +38,10 @@ describe('Fetch Recent Foods', () => {
       await inMemoryCategoriesRepository.create(makeCategory());
     }
 
-    const { categories } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
 
-    expect(categories).toHaveLength(2);
+    expect(result.value?.categories).toHaveLength(2);
   });
 });

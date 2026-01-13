@@ -1,16 +1,17 @@
 import { Meal, TurnsType } from '@/domain/enterprise/entities/meal';
 import { MealsRepository } from '../repositories/meals-repository';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Either, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
 interface CreateMealUseCaseRequest {
   date: Date;
   turn: TurnsType;
 }
 
-interface CreateMealUseCaseResponse {
-  meal: Meal;
-}
+type CreateMealUseCaseResponse = Either<null, { meal: Meal }>;
 
+@Injectable()
 export class CreateMealUseCase {
   constructor(private mealsRepository: MealsRepository) {}
 
@@ -19,15 +20,15 @@ export class CreateMealUseCase {
     turn,
   }: CreateMealUseCaseRequest): Promise<CreateMealUseCaseResponse> {
     const meal = Meal.create({
-        date,
-        turn,
-        userId: new UniqueEntityID
-    })
-    
-    await this.mealsRepository.create(meal)
+      date,
+      turn,
+      userId: new UniqueEntityID(),
+    });
 
-    return {
-        meal
-    }
+    await this.mealsRepository.create(meal);
+
+    return right({
+      meal,
+    });
   }
 }

@@ -1,7 +1,10 @@
 import { MealItensRepository } from '../repositories/meal-item-repository';
 import { UniqueEntityID } from '../../../core/entities/unique-entity-id';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface EditMealItemUseCaseRequest {
+interface EditMealItemUseCaseRequest {
   mealItemId: string;
   mealId: string;
   foodId: string;
@@ -9,8 +12,9 @@ export interface EditMealItemUseCaseRequest {
   quantityConsumeds: number;
 }
 
-export interface EditMealItemUseCaseResponse {}
+type EditMealItemUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class EditMealItemUseCase {
   constructor(private mealItensRepository: MealItensRepository) {}
 
@@ -24,16 +28,16 @@ export class EditMealItemUseCase {
     const mealItem = await this.mealItensRepository.findById(mealItemId);
 
     if (!mealItem) {
-      throw new Error('Meal item not found');
+      return left(new ResourceNotFoundError());
     }
 
     mealItem.mealId = new UniqueEntityID(mealId);
     mealItem.foodId = new UniqueEntityID(foodId);
-    mealItem.quantityConsumeds = quantityConsumeds
-    mealItem.quantityServed = quantityServed
+    mealItem.quantityConsumeds = quantityConsumeds;
+    mealItem.quantityServed = quantityServed;
 
     await this.mealItensRepository.save(mealItem);
 
-    return {};
+    return right({});
   }
 }

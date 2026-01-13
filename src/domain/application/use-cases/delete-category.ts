@@ -1,11 +1,15 @@
+import { Either, left, Left, right } from '@/core/either';
 import { CategoriesRepository } from '../repositories/categories-repository';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface DeleteCategoryUseCaseRequest {
+interface DeleteCategoryUseCaseRequest {
   id: string;
 }
 
-export interface DeleteCategoryUseCaseResponse {}
+type DeleteCategoryUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class DeleteCategoryUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {}
 
@@ -15,11 +19,11 @@ export class DeleteCategoryUseCase {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
-      throw new Error('Category not found');
+      return left(new ResourceNotFoundError());
     }
 
     await this.categoriesRepository.delete(category);
 
-    return {};
+    return right({});
   }
 }

@@ -1,16 +1,20 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { WastesRepository } from '../repositories/wastes-repository';
 import { ReasonType } from '@/domain/enterprise/entities/waste';
+import { Injectable } from '@nestjs/common';
+import { left, Either, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
 
-export interface EditWasteUseCaseRequest {
+interface EditWasteUseCaseRequest {
   wasteId: string;
   mealItemId: string;
   quantity: number;
   reason: ReasonType;
 }
 
-export interface EditWasteUseCaseResponse {}
+type EditWasteUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class EditWasteUseCase {
   constructor(private wastesRepository: WastesRepository) {}
 
@@ -23,15 +27,15 @@ export class EditWasteUseCase {
     const waste = await this.wastesRepository.findById(wasteId);
 
     if (!waste) {
-      throw new Error('Waste not found');
+      return left(new ResourceNotFoundError());
     }
 
     waste.mealItemId = new UniqueEntityID(mealItemId);
-    waste.quantity = quantity
-    waste.reason = reason
+    waste.quantity = quantity;
+    waste.reason = reason;
 
     await this.wastesRepository.save(waste);
 
-    return {};
+    return right({});
   }
 }

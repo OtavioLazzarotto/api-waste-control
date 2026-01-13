@@ -1,14 +1,18 @@
+import { Either, right } from '@/core/either';
 import { CategoriesRepository } from '../repositories/categories-repository';
 import { Category } from '@/domain/enterprise/entities/category';
+import { Injectable } from '@nestjs/common';
 
-export interface FetchRecentCategoriesUseCaseRequest {
+interface FetchRecentCategoriesUseCaseRequest {
   page: number;
 }
 
-export interface FetchRecentCategoriesUseCaseResponse {
-  categories: Category[];
-}
+type FetchRecentCategoriesUseCaseResponse = Either<
+  null,
+  { categories: Category[] }
+>;
 
+@Injectable()
 export class FetchRecentCategoriesUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {}
 
@@ -17,8 +21,6 @@ export class FetchRecentCategoriesUseCase {
   }: FetchRecentCategoriesUseCaseRequest): Promise<FetchRecentCategoriesUseCaseResponse> {
     const categories = await this.categoriesRepository.findManyRecent({ page });
 
-    return {
-      categories,
-    };
+    return right({ categories });
   }
 }

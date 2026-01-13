@@ -1,14 +1,18 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { FoodsRepository } from '../repositories/foods-repository';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface EditFoodUseCaseRequest {
+interface EditFoodUseCaseRequest {
   foodId: string;
   name: string;
   categoryId: string;
 }
 
-export interface EditFoodUseCaseResponse {}
+type EditFoodUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class EditFoodUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
@@ -20,7 +24,7 @@ export class EditFoodUseCase {
     const food = await this.foodsRepository.findById(foodId);
 
     if (!food) {
-      throw new Error('Food not found');
+      return left(new ResourceNotFoundError());
     }
 
     food.name = name;
@@ -28,6 +32,6 @@ export class EditFoodUseCase {
 
     await this.foodsRepository.save(food);
 
-    return {};
+    return right({});
   }
 }

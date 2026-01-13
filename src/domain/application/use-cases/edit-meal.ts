@@ -1,14 +1,18 @@
 import { TurnsType } from '@/domain/enterprise/entities/meal';
 import { MealsRepository } from '../repositories/meals-repository';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface EditMealUseCaseRequest {
+interface EditMealUseCaseRequest {
   mealId: string;
   date: Date;
   turn: TurnsType;
 }
 
-export interface EditMealUseCaseResponse {}
+type EditMealUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class EditMealUseCase {
   constructor(private mealsRepository: MealsRepository) {}
 
@@ -20,7 +24,7 @@ export class EditMealUseCase {
     const meal = await this.mealsRepository.findById(mealId);
 
     if (!meal) {
-      throw new Error('Meal not found');
+      return left(new ResourceNotFoundError());
     }
 
     meal.date = date;
@@ -28,6 +32,6 @@ export class EditMealUseCase {
 
     await this.mealsRepository.save(meal);
 
-    return {};
+    return right({});
   }
 }

@@ -14,14 +14,16 @@ describe('Create Meal Item', () => {
   it('should be able to create an meal item', async () => {
     const newMealItem = makeMealItem();
 
-    const { mealItem } = await sut.execute({
+    const result = await sut.execute({
       mealId: 'meal-1',
       foodId: 'food-1',
       quantityConsumeds: newMealItem.quantityConsumeds,
-      quantityServed: newMealItem.quantityServed
+      quantityServed: newMealItem.quantityServed,
     });
 
-    expect(mealItem.id).toBeTruthy();
-    expect(inMemoryMealItensRepository.items[0].id).toEqual(mealItem.id);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryMealItensRepository.items[0]).toEqual(
+      result.value?.mealItem,
+    );
   });
 });

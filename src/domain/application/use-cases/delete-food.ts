@@ -1,11 +1,15 @@
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
 import { FoodsRepository } from '../repositories/foods-repository';
+import { Either, left, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
-export interface DeleteFoodUseCaseRequest {
+interface DeleteFoodUseCaseRequest {
   id: string;
 }
 
-export interface DeleteFoodUseCaseResponse {}
+type DeleteFoodUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
+@Injectable()
 export class DeleteFoodUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
@@ -15,11 +19,11 @@ export class DeleteFoodUseCase {
     const food = await this.foodsRepository.findById(id);
 
     if (!food) {
-      throw new Error('Food not found');
+      return left(new ResourceNotFoundError());
     }
 
     await this.foodsRepository.delete(food);
 
-    return {};
+    return right({});
   }
 }

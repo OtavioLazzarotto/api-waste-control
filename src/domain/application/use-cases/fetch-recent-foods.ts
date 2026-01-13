@@ -1,14 +1,15 @@
 import { Food } from '@/domain/enterprise/entities/food';
 import { FoodsRepository } from '../repositories/foods-repository';
+import { Injectable } from '@nestjs/common';
+import { Either, right } from '@/core/either';
 
-export interface FetchRecentFoodsUseCaseRequest {
+interface FetchRecentFoodsUseCaseRequest {
   page: number;
 }
 
-export interface FetchRecentFoodsUseCaseResponse {
-  foods: Food[];
-}
+type FetchRecentFoodsUseCaseResponse = Either<null, { foods: Food[] }>;
 
+@Injectable()
 export class FetchRecentFoodsUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
@@ -17,8 +18,8 @@ export class FetchRecentFoodsUseCase {
   }: FetchRecentFoodsUseCaseRequest): Promise<FetchRecentFoodsUseCaseResponse> {
     const foods = await this.foodsRepository.findManyRecent({ page });
 
-    return {
+    return right({
       foods,
-    };
+    });
   }
 }

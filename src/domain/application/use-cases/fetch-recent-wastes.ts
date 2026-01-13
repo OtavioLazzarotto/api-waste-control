@@ -1,15 +1,15 @@
-import { Waste } from "@/domain/enterprise/entities/waste";
-import { WastesRepository } from "../repositories/wastes-repository";
+import { Waste } from '@/domain/enterprise/entities/waste';
+import { WastesRepository } from '../repositories/wastes-repository';
+import { Either, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
-
-export interface FetchRecentWastesUseCaseRequest {
+interface FetchRecentWastesUseCaseRequest {
   page: number;
 }
 
-export interface FetchRecentWastesUseCaseResponse {
-  wastes: Waste[];
-}
+type FetchRecentWastesUseCaseResponse = Either<null, { wastes: Waste[] }>;
 
+@Injectable()
 export class FetchRecentWastesUseCase {
   constructor(private wastesRepository: WastesRepository) {}
 
@@ -18,8 +18,8 @@ export class FetchRecentWastesUseCase {
   }: FetchRecentWastesUseCaseRequest): Promise<FetchRecentWastesUseCaseResponse> {
     const wastes = await this.wastesRepository.findManyRecent({ page });
 
-    return {
+    return right({
       wastes,
-    };
+    });
   }
 }

@@ -11,12 +11,12 @@ describe('Create Food', () => {
   });
 
   it('should be able to create an food', async () => {
-    const { food } = await sut.execute({
+    const result = await sut.execute({
       name: 'Arroz',
       categoryId: '1',
     });
 
-    expect(food.id).toBeTruthy();
-    expect(inMemoryFoodsRepository.items[0].id).toEqual(food.id);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryFoodsRepository.items[0]).toEqual(result.value?.food);
   });
 });

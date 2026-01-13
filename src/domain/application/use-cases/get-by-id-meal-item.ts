@@ -1,14 +1,19 @@
 import { MealItem } from '@/domain/enterprise/entities/meal-item';
 import { MealItensRepository } from '../repositories/meal-item-repository';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-error';
+import { Injectable } from '@nestjs/common';
 
-export interface GetMealItemByIdUseCaseRequest {
+interface GetMealItemByIdUseCaseRequest {
   mealItemId: string;
 }
 
-export interface GetMealItemByIdUseCaseResponse {
-  mealItem: MealItem;
-}
+type GetMealItemByIdUseCaseResponse = Either<
+  ResourceNotFoundError,
+  { mealItem: MealItem }
+>;
 
+@Injectable()
 export class GetMealItemByIdUseCase {
   constructor(private mealItensRepository: MealItensRepository) {}
 
@@ -18,11 +23,11 @@ export class GetMealItemByIdUseCase {
     const mealItem = await this.mealItensRepository.findById(mealItemId);
 
     if (!mealItem) {
-      throw new Error('Meal Item not found');
+      return left(new ResourceNotFoundError());
     }
 
-    return {
+    return right({
       mealItem,
-    };
+    });
   }
 }

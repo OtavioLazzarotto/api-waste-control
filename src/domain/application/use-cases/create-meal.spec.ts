@@ -12,12 +12,12 @@ describe('Create Meal', () => {
   });
 
   it('should be able to create an meal', async () => {
-    const { meal } = await sut.execute({
+    const result = await sut.execute({
       date: new Date(),
       turn: TurnsType.DINNER,
     });
 
-    expect(meal.id).toBeTruthy();
-    expect(inMemoryMealsRepository.items[0].id).toEqual(meal.id);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryMealsRepository.items[0]).toEqual(result.value?.meal);
   });
 });

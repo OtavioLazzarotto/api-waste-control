@@ -1,14 +1,20 @@
 import { Category } from '@/domain/enterprise/entities/category';
 import { CategoriesRepository } from '../repositories/categories-repository';
+import { Either, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
 interface CreateCategoryUseCaseRequest {
   name: string;
 }
 
-interface CreateCategoryUseCaseResponse {
-  category: Category;
-}
+type CreateCategoryUseCaseResponse = Either<
+  null,
+  {
+    category: Category;
+  }
+>;
 
+@Injectable()
 export class CreateCategoryUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {}
   async execute({
@@ -20,8 +26,8 @@ export class CreateCategoryUseCase {
 
     await this.categoriesRepository.create(category);
 
-    return {
+    return right({
       category,
-    };
+    });
   }
 }

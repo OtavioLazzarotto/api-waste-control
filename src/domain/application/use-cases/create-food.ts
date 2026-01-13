@@ -1,16 +1,22 @@
 import { Food } from '@/domain/enterprise/entities/food';
 import { FoodsRepository } from '../repositories/foods-repository';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Either, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
 interface CreateFoodUseCaseRequest {
   name: string;
   categoryId: string;
 }
 
-interface CreateFoodUseCaseResponse {
-  food: Food
-}
+type CreateFoodUseCaseResponse = Either<
+  null,
+  {
+    food: Food;
+  }
+>;
 
+@Injectable()
 export class CreateFoodUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
@@ -25,8 +31,8 @@ export class CreateFoodUseCase {
 
     await this.foodsRepository.create(food);
 
-    return {
+    return right({
       food,
-    };
+    });
   }
 }
