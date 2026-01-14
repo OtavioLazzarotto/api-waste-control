@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@/generated/prisma/client';
-import { AppModuleTest } from '@/AppModuleTest.module';
+import { AppModuleTest } from '@/infra/AppModuleTest.module';
 import { PrismaService } from '@/prisma/prisma.service';
 
 export async function setupE2E(): Promise<{

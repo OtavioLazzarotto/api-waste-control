@@ -1,8 +1,9 @@
-import { PrismaService } from '@/prisma/prisma.service';
+
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import z from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 
 const pageQueryParamSchema = z.coerce.number().min(1).default(1);
 

@@ -1,8 +1,8 @@
+import { PrismaService } from '@/infra/prisma/prisma.service';
 import { INestApplication } from '@nestjs/common';
-import { setupE2E } from '../../../test/setup-e2e';
 
 import request from 'supertest';
-import { PrismaService } from '@/prisma/prisma.service';
+import { setupE2E } from '../../../../test/setup-e2e';
 
 describe('Create account (E2E)', () => {
   let app: INestApplication;
