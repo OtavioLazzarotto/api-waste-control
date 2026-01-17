@@ -6,11 +6,15 @@ import { PrismaMealItensRepository } from './prisma/repositories/prisma-meal-ite
 import { PrismaMealsRepository } from './prisma/repositories/prisma-meals-repository';
 import { PrismaUsersRepository } from './prisma/repositories/prisma-users-repository';
 import { PrismaWastesRepository } from './prisma/repositories/prisma-wastes-repository';
+import { CategoriesRepository } from '@/domain/application/repositories/categories-repository';
 
 @Module({
   providers: [
     PrismaService,
-    PrismaCategoriesRepository,
+    {
+      provide: CategoriesRepository,
+      useClass: PrismaCategoriesRepository,
+    },
     PrismaFoodsRepository,
     PrismaMealItensRepository,
     PrismaMealsRepository,
@@ -19,7 +23,7 @@ import { PrismaWastesRepository } from './prisma/repositories/prisma-wastes-repo
   ],
   exports: [
     PrismaService,
-    PrismaCategoriesRepository,
+    CategoriesRepository,
     PrismaFoodsRepository,
     PrismaMealItensRepository,
     PrismaMealsRepository,

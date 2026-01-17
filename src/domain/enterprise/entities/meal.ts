@@ -42,6 +42,10 @@ export class Meal extends Entity<MealProps> {
     return this.props.createdAt;
   }
 
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
   private touch() {
     this.props.updatedAt = new Date();
   }

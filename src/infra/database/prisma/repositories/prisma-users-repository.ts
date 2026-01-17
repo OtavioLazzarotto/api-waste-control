@@ -1,11 +1,32 @@
 import { UsersRepository } from '@/domain/application/repositories/users-repository';
 import { User } from '@/domain/enterprise/entities/user';
+import { PrismaService } from '../prisma.service';
+import { Injectable } from '@nestjs/common';
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper';
 
+@Injectable()
 export class PrismaUsersRepository implements UsersRepository {
-  findByUsername(username: string): Promise<User | null> {
-    throw new Error('Method not implemented.');
+  constructor(private prisma: PrismaService) {}
+
+  async findByUsername(username: string): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return PrismaUserMapper.toDomain(user);
   }
-  create(user: User): Promise<void> {
-    throw new Error('Method not implemented.');
+  
+  async create(user: User): Promise<void> {
+    const data = PrismaUserMapper.toPrisma(user);
+
+    await this.prisma.user.create({
+      data,
+    });
   }
 }

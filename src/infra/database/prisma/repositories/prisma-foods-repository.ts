@@ -1,21 +1,66 @@
 import { FoodsRepository } from '@/domain/application/repositories/foods-repository';
 import { Food } from '@/domain/enterprise/entities/food';
 import { PaginationParams } from '@/domain/enterprise/repositories/pagination-params';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { PrismaFoodMapper } from '../mappers/prisma-food-mapper';
 
+@Injectable()
 export class PrismaFoodsRepository implements FoodsRepository {
-  findById(name: string): Promise<Food | null> {
-    throw new Error('Method not implemented.');
+  constructor(private prisma: PrismaService) {}
+
+  async findById(id: string): Promise<Food | null> {
+    const food = await this.prisma.food.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!food) {
+      return null;
+    }
+
+    return PrismaFoodMapper.toDomain(food);
   }
-  findManyRecent(params: PaginationParams): Promise<Food[]> {
-    throw new Error('Method not implemented.');
+
+  async findManyRecent({ page }: PaginationParams): Promise<Food[]> {
+    const foods = await this.prisma.food.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    });
+
+    return foods.map(PrismaFoodMapper.toDomain);
   }
-  create(food: Food): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async create(food: Food): Promise<void> {
+    const data = PrismaFoodMapper.toPrisma(food);
+
+    await this.prisma.food.create({
+      data,
+    });
   }
-  save(food: Food): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(food: Food): Promise<void> {
+    const data = PrismaFoodMapper.toPrisma(food);
+
+    await this.prisma.food.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    });
   }
-  delete(food: Food): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(food: Food): Promise<void> {
+    const data = PrismaFoodMapper.toPrisma(food);
+
+    await this.prisma.food.delete({
+      where: {
+        id: data.id,
+      },
+    });
   }
 }

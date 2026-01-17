@@ -48,6 +48,10 @@ export class Waste extends Entity<WasteProps> {
     return this.props.createdAt;
   }
 
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
   private touch() {
     this.props.updatedAt = new Date();
   }

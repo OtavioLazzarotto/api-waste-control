@@ -4,7 +4,7 @@ import { PaginationParams } from "@/domain/enterprise/repositories/pagination-pa
 export abstract class MealItensRepository {
   abstract findById(id: string): Promise<MealItem | null>;
   abstract findManyRecent(params: PaginationParams): Promise<MealItem[]>;
-  abstract create(meal: MealItem): Promise<void>;
-  abstract save(meal: MealItem): Promise<void>;
-  abstract delete(meal: MealItem): Promise<void>;
+  abstract create(mealItem: MealItem): Promise<void>;
+  abstract save(mealItem: MealItem): Promise<void>;
+  abstract delete(mealItem: MealItem): Promise<void>;
 }

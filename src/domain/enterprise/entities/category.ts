@@ -17,6 +17,10 @@ export class Category extends Entity<CategoryProps> {
     return this.props.createdAt;
   }
 
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
   set name(name: string) {
     this.props.name = name;
     this.touch();

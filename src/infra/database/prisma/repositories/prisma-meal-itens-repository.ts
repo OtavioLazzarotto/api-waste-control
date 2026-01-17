@@ -1,21 +1,66 @@
 import { MealItensRepository } from '@/domain/application/repositories/meal-item-repository';
 import { MealItem } from '@/domain/enterprise/entities/meal-item';
 import { PaginationParams } from '@/domain/enterprise/repositories/pagination-params';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { PrismaMealItemMapper } from '../mappers/prisma-meal-item-mapper';
 
+@Injectable()
 export class PrismaMealItensRepository implements MealItensRepository {
-  findById(id: string): Promise<MealItem | null> {
-    throw new Error('Method not implemented.');
+  constructor(private prisma: PrismaService) {}
+
+  async findById(id: string): Promise<MealItem | null> {
+    const mealItem = await this.prisma.mealItem.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!mealItem) {
+      return null;
+    }
+
+    return PrismaMealItemMapper.toDomain(mealItem);
   }
-  findManyRecent(params: PaginationParams): Promise<MealItem[]> {
-    throw new Error('Method not implemented.');
+
+  async findManyRecent({ page }: PaginationParams): Promise<MealItem[]> {
+    const mealItens = await this.prisma.mealItem.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    });
+
+    return mealItens.map(PrismaMealItemMapper.toDomain);
   }
-  create(meal: MealItem): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async create(mealItem: MealItem): Promise<void> {
+    const data = PrismaMealItemMapper.toPrisma(mealItem);
+
+    await this.prisma.mealItem.create({
+      data,
+    });
   }
-  save(meal: MealItem): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(mealItem: MealItem): Promise<void> {
+    const data = PrismaMealItemMapper.toPrisma(mealItem);
+
+    await this.prisma.mealItem.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    });
   }
-  delete(meal: MealItem): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(mealItem: MealItem): Promise<void> {
+    const data = PrismaMealItemMapper.toPrisma(mealItem);
+
+    await this.prisma.mealItem.delete({
+      where: {
+        id: data.id,
+      },
+    });
   }
 }

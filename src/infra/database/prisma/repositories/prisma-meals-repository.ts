@@ -1,21 +1,66 @@
 import { MealsRepository } from '@/domain/application/repositories/meals-repository';
 import { Meal } from '@/domain/enterprise/entities/meal';
 import { PaginationParams } from '@/domain/enterprise/repositories/pagination-params';
+import { Injectable } from '@nestjs/common';
+import { PrismaMealMapper } from '../mappers/prisma-meal-mapper';
+import { PrismaService } from '../prisma.service';
 
+@Injectable()
 export class PrismaMealsRepository implements MealsRepository {
-  findById(id: string): Promise<Meal | null> {
-    throw new Error('Method not implemented.');
+  constructor(private prisma: PrismaService) {}
+
+  async findById(id: string): Promise<Meal | null> {
+    const meal = await this.prisma.meal.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!meal) {
+      return null;
+    }
+
+    return PrismaMealMapper.toDomain(meal);
   }
-  findManyRecent(params: PaginationParams): Promise<Meal[]> {
-    throw new Error('Method not implemented.');
+
+  async findManyRecent({ page }: PaginationParams): Promise<Meal[]> {
+    const meals = await this.prisma.meal.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    });
+
+    return meals.map(PrismaMealMapper.toDomain);
   }
-  create(meal: Meal): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async create(meal: Meal): Promise<void> {
+    const data = PrismaMealMapper.toPrisma(meal);
+
+    await this.prisma.meal.create({
+      data,
+    });
   }
-  save(meal: Meal): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async save(meal: Meal): Promise<void> {
+    const data = PrismaMealMapper.toPrisma(meal);
+
+    await this.prisma.meal.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    });
   }
-  delete(meal: Meal): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async delete(meal: Meal): Promise<void> {
+    const data = PrismaMealMapper.toPrisma(meal);
+
+    await this.prisma.meal.delete({
+      where: {
+        id: data.id,
+      },
+    });
   }
 }
