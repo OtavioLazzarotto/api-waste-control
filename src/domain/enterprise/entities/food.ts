@@ -2,6 +2,7 @@ import { Entity } from '@/core/entities/entity';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
 
+
 export interface FoodProps {
   name: string;
   categoryId: UniqueEntityID;
@@ -28,12 +29,12 @@ export class Food extends Entity<FoodProps> {
 
   set name(name: string) {
     this.props.name = name;
-    this.touch()
+    this.touch();
   }
 
   set categoryId(categoryId: UniqueEntityID) {
     this.props.categoryId = categoryId;
-    this.touch()
+    this.touch();
   }
 
   private touch() {

@@ -3,8 +3,8 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
 
 export enum Roles {
-  USER = 'Usuario',
-  ADM = 'Administrador',
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export interface UserProps {

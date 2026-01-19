@@ -4,12 +4,14 @@ import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@/generated/prisma/client';
 import { AppModuleTest } from '@/infra/AppModuleTest.module';
-import { PrismaService } from '@/prisma/prisma.service';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { JwtService } from '@nestjs/jwt';
 
 export async function setupE2E(): Promise<{
   app: INestApplication;
   teardown: () => Promise<void>;
   db: PrismaService
+  jwt: JwtService
 }> {
   const schemaId = `test_${randomUUID().replace(/-/g, '').slice(0, 20)}`;
 
@@ -30,6 +32,7 @@ export async function setupE2E(): Promise<{
 
   const app = moduleRef.createNestApplication();
   const db = moduleRef.get(PrismaService)
+  const jwt = moduleRef.get(JwtService)
   await app.init();
 
   const prisma = new PrismaClient({
@@ -51,6 +54,7 @@ export async function setupE2E(): Promise<{
   return {
     app,
     db,
+    jwt,
     teardown,
   };
 }

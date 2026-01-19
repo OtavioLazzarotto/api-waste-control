@@ -25,12 +25,17 @@ export class PrismaFoodsRepository implements FoodsRepository {
 
   async findManyRecent({ page }: PaginationParams): Promise<Food[]> {
     const foods = await this.prisma.food.findMany({
+      include: {
+        category: true,
+      },
       orderBy: {
         createdAt: 'desc',
       },
       take: 20,
       skip: (page - 1) * 20,
     });
+
+    console.log(foods)
 
     return foods.map(PrismaFoodMapper.toDomain);
   }

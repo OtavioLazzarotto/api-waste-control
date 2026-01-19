@@ -1,5 +1,6 @@
 import { RolesType } from '@/generated/prisma/enums';
 import {
+  BadGatewayException,
   Body,
   ConflictException,
   Controller,
@@ -7,24 +8,26 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
-
-import { hash } from 'bcryptjs'
-import { z } from 'zod'
+import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { CreateUserUseCase } from '@/domain/application/use-cases/create-user';
+import { Roles } from '@/domain/enterprise/entities/user';
+import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
+import { Public } from '@/infra/auth/public';
 
 const createAccountBodySchema = z.object({
-    name: z.string(),
-    username: z.string(),
-    password: z.string(),
-    roles: z.enum(RolesType)
-})
+  name: z.string(),
+  username: z.string(),
+  password: z.string(),
+  roles: z.enum(RolesType),
+});
 
-type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
+type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>;
 
 @Controller('/accounts')
+@Public()
 export class CreateAccountController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private createUser: CreateUserUseCase) {}
 
   @Post()
   @HttpCode(201)
@@ -32,25 +35,25 @@ export class CreateAccountController {
   async handle(@Body() body: CreateAccountBodySchema) {
     const { name, username, password, roles } = body;
 
-    const userWithSameUsername = await this.prisma.user.findUnique({
-      where: {
-        username,
-      },
+    const result = await this.createUser.execute({
+      name,
+      username,
+      password,
+      roles: roles as unknown as Roles,
     });
 
-    if (userWithSameUsername) {
-      throw new ConflictException('User with same username already exists.');
+    if (result.isLeft()) {
+      const error = result.value;
+
+      switch (error.constructor) {
+        case UserAlreadyExistsError: {
+          throw new ConflictException(error.message);
+        }
+
+        default: {
+          throw new BadGatewayException(error.message);
+        }
+      }
     }
-
-    const hashedPassword = await hash(password, 8)
-
-    await this.prisma.user.create({
-      data: {
-        name,
-        username,
-        password: hashedPassword,
-        roles
-      },
-    });
   }
 }

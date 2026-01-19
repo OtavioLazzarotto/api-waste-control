@@ -13,7 +13,6 @@ const bodyValidationPipe = new ZodValidationPipe(createCategoryBodySchema);
 type CreateCategoryBodySchema = z.infer<typeof createCategoryBodySchema>;
 
 @Controller('/category')
-@UseGuards(AuthGuard('jwt'))
 export class CreateCategoryController {
   constructor(private createCategory: CreateCategoryUseCase) {}
 

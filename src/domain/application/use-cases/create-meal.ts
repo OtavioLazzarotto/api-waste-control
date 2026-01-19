@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 interface CreateMealUseCaseRequest {
   date: Date;
   turn: TurnsType;
+  userId: string;
 }
 
 type CreateMealUseCaseResponse = Either<null, { meal: Meal }>;
@@ -18,11 +19,12 @@ export class CreateMealUseCase {
   async execute({
     date,
     turn,
+    userId,
   }: CreateMealUseCaseRequest): Promise<CreateMealUseCaseResponse> {
     const meal = Meal.create({
       date,
       turn,
-      userId: new UniqueEntityID(),
+      userId: new UniqueEntityID(userId),
     });
 
     await this.mealsRepository.create(meal);
