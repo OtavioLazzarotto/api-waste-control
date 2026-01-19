@@ -15,6 +15,10 @@ import { CryptographyModule } from '../cryptography/cryptography.module';
 import { CreateUserUseCase } from '@/domain/application/use-cases/create-user';
 import { CreateMealUseCase } from '@/domain/application/use-cases/create-meal';
 import { CreateMealController } from './controllers/create-meal-controller';
+import { CreateMealItemController } from './controllers/create-mealItem.controller';
+import { CreateWasteController } from './controllers/create-waste.controller';
+import { CreateMealItemUseCase } from '@/domain/application/use-cases/create-meal-item';
+import { CreateWasteUseCase } from '@/domain/application/use-cases/create-waste';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -25,7 +29,9 @@ import { CreateMealController } from './controllers/create-meal-controller';
     CreateCategoryController,
     CreateFoodController,
     FetchRecentFoodsController,
-    CreateMealController
+    CreateMealController,
+    CreateMealItemController,
+    CreateWasteController
   ],
   providers: [
     CreateCategoryUseCase,
@@ -34,7 +40,9 @@ import { CreateMealController } from './controllers/create-meal-controller';
     FetchRecentFoodsUseCase,
     AuthenticateUserUseCase,
     CreateUserUseCase,
-    CreateMealUseCase
+    CreateMealUseCase,
+    CreateMealItemUseCase,
+    CreateWasteUseCase
   ],
 })
 export class HttpModule {}
