@@ -15,10 +15,12 @@ import { CryptographyModule } from '../cryptography/cryptography.module';
 import { CreateUserUseCase } from '@/domain/application/use-cases/create-user';
 import { CreateMealUseCase } from '@/domain/application/use-cases/create-meal';
 import { CreateMealController } from './controllers/create-meal-controller';
-import { CreateMealItemController } from './controllers/create-mealItem.controller';
+import { CreateMealItemController } from './controllers/create-meal-item.controller';
 import { CreateWasteController } from './controllers/create-waste.controller';
 import { CreateMealItemUseCase } from '@/domain/application/use-cases/create-meal-item';
 import { CreateWasteUseCase } from '@/domain/application/use-cases/create-waste';
+import { FetchRecentMealsController } from './controllers/fetch-recent-meals.controller';
+import { FetchRecentMealsUseCase } from '@/domain/application/use-cases/fetch-recent-meals';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -31,7 +33,8 @@ import { CreateWasteUseCase } from '@/domain/application/use-cases/create-waste'
     FetchRecentFoodsController,
     CreateMealController,
     CreateMealItemController,
-    CreateWasteController
+    CreateWasteController,
+    FetchRecentMealsController
   ],
   providers: [
     CreateCategoryUseCase,
@@ -42,7 +45,8 @@ import { CreateWasteUseCase } from '@/domain/application/use-cases/create-waste'
     CreateUserUseCase,
     CreateMealUseCase,
     CreateMealItemUseCase,
-    CreateWasteUseCase
+    CreateWasteUseCase,
+    FetchRecentMealsUseCase
   ],
 })
 export class HttpModule {}

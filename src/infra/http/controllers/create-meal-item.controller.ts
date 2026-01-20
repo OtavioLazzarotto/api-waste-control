@@ -7,8 +7,8 @@ import { CreateMealItemUseCase } from "@/domain/application/use-cases/create-mea
 const createMealItemBodySchema = z.object({
     mealId: z.uuid(),
     foodId: z.uuid(),
-    quantityServed: z.number(),
-    quantityConsumeds: z.number(),
+    quantityServed: z.coerce.number(),
+    quantityConsumeds: z.coerce.number(),
 })
 
 const BodyValidationPipe = new ZodValidationPipe(createMealItemBodySchema)

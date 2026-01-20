@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Meal, MealProps, TurnsType } from '@/domain/enterprise/entities/meal';
+import { TurnsType as PrismaTurnsType } from '@/generated/prisma/enums';
 
 export function makeMeal(
   override: Partial<MealProps> = {},
@@ -10,7 +11,7 @@ export function makeMeal(
   const meal = Meal.create(
     {
       date: faker.date.future({ years: 1 }),
-      turn: TurnsType.AFTERNOON,
+      turn: PrismaTurnsType.AFTERNOON as TurnsType,
       userId: new UniqueEntityID(),
       ...override,
     },

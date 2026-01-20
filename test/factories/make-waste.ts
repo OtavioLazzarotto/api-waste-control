@@ -6,6 +6,7 @@ import {
   Waste,
   WasteProps,
 } from '@/domain/enterprise/entities/waste';
+import { ReasonType as PrismaReasonType } from '@/generated/prisma/enums';
 
 export function makeWaste(
   override: Partial<WasteProps> = {},
@@ -15,7 +16,7 @@ export function makeWaste(
     {
       mealItemId: new UniqueEntityID(),
       quantity: faker.number.int({ min: 1, max: 100 }),
-      reason: ReasonType.LEFTOVER,
+      reason: PrismaReasonType.LEFTOVER as ReasonType,
       ...override,
     },
     id,

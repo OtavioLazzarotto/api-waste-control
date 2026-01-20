@@ -3,9 +3,7 @@ import {
   Controller,
   Get,
   Query,
-  UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import z from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 import { FetchRecentCategoriesUseCase } from '@/domain/application/use-cases/fetch-recent-categories';
