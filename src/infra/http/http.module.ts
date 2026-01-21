@@ -21,6 +21,14 @@ import { CreateMealItemUseCase } from '@/domain/application/use-cases/create-mea
 import { CreateWasteUseCase } from '@/domain/application/use-cases/create-waste';
 import { FetchRecentMealsController } from './controllers/fetch-recent-meals.controller';
 import { FetchRecentMealsUseCase } from '@/domain/application/use-cases/fetch-recent-meals';
+import { FetchRecentMealItensController } from './controllers/fetch-recent-meal-Itens.controller';
+import { FetchRecentWastesController } from './controllers/fetch-recent-wastes.controller';
+import { FetchRecentMealItensUseCase } from '@/domain/application/use-cases/fetch-recent-meal-itens';
+import { FetchRecentWastesUseCase } from '@/domain/application/use-cases/fetch-recent-wastes';
+import { GetByIdCategoryController } from './controllers/get-by-id-category.controller';
+import { GetCategoryByIdUseCase } from '@/domain/application/use-cases/get-by-id-category';
+import { GetByIdFoodController } from './controllers/get-by-id-food.controller';
+import { GetFoodByIdUseCase } from '@/domain/application/use-cases/get-by-id-food';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -34,7 +42,11 @@ import { FetchRecentMealsUseCase } from '@/domain/application/use-cases/fetch-re
     CreateMealController,
     CreateMealItemController,
     CreateWasteController,
-    FetchRecentMealsController
+    FetchRecentMealsController,
+    FetchRecentMealItensController,
+    FetchRecentWastesController,
+    GetByIdCategoryController,
+    GetByIdFoodController
   ],
   providers: [
     CreateCategoryUseCase,
@@ -46,7 +58,11 @@ import { FetchRecentMealsUseCase } from '@/domain/application/use-cases/fetch-re
     CreateMealUseCase,
     CreateMealItemUseCase,
     CreateWasteUseCase,
-    FetchRecentMealsUseCase
+    FetchRecentMealsUseCase,
+    FetchRecentMealItensUseCase,
+    FetchRecentWastesUseCase,
+    GetCategoryByIdUseCase,
+    GetFoodByIdUseCase
   ],
 })
 export class HttpModule {}
