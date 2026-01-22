@@ -26,7 +26,7 @@ MealItem -  Alimento por refeicao
 
 - FRAMEWORK NESTJS
 
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para FOOD
+- [] Criar Controllers para Create, Delete, Update, GetById, FindByMany para FOOD
 - [] Criar Controllers para Create, Delete, Update, GetById, FindByMany para CATEGORY
 - [] Criar Controllers para Create, Delete, Update, GetById, FindByMany para MEAL
 - [] Criar Controllers para Create, Delete, Update, GetById, FindByMany para MEALITEM
