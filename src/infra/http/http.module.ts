@@ -29,6 +29,22 @@ import { GetByIdCategoryController } from './controllers/get-by-id-category.cont
 import { GetCategoryByIdUseCase } from '@/domain/application/use-cases/get-by-id-category';
 import { GetByIdFoodController } from './controllers/get-by-id-food.controller';
 import { GetFoodByIdUseCase } from '@/domain/application/use-cases/get-by-id-food';
+import { GetByIdMealController } from './controllers/get-by-id-meal.controller';
+import { GetByIdMealItemController } from './controllers/get-by-id-meal-item.controller';
+import { GetByIdWasteController } from './controllers/get-by-id-waste.controller';
+import { GetMealByIdUseCase } from '@/domain/application/use-cases/get-by-id-meal';
+import { GetMealItemByIdUseCase } from '@/domain/application/use-cases/get-by-id-meal-item';
+import { GetWasteByIdUseCase } from '@/domain/application/use-cases/get-by-id-waste';
+import { DeleteCategoryController } from './controllers/delete-category.controller';
+import { DeleteCategoryUseCase } from '@/domain/application/use-cases/delete-category';
+import { DeleteFoodController } from './controllers/delete-food.controller';
+import { DeleteMealController } from './controllers/delete-meal.controller';
+import { DeleteMealItemController } from './controllers/delete-meal-item.controller';
+import { DeleteWasteController } from './controllers/delete-waste.controller';
+import { DeleteFoodUseCase } from '@/domain/application/use-cases/delete-food';
+import { DeleteMealUseCase } from '@/domain/application/use-cases/delete-meal';
+import { DeleteMealItemUseCase } from '@/domain/application/use-cases/delete-meal-item';
+import { DeleteWasteUseCase } from '@/domain/application/use-cases/delete-waste';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -46,8 +62,17 @@ import { GetFoodByIdUseCase } from '@/domain/application/use-cases/get-by-id-foo
     FetchRecentMealItensController,
     FetchRecentWastesController,
     GetByIdCategoryController,
-    GetByIdFoodController
+    GetByIdFoodController,
+    GetByIdMealController,
+    GetByIdMealItemController,
+    GetByIdWasteController,
+    DeleteCategoryController,
+    DeleteFoodController,
+    DeleteMealController,
+    DeleteMealItemController,
+    DeleteWasteController,
   ],
+
   providers: [
     CreateCategoryUseCase,
     CreateFoodUseCase,
@@ -62,7 +87,15 @@ import { GetFoodByIdUseCase } from '@/domain/application/use-cases/get-by-id-foo
     FetchRecentMealItensUseCase,
     FetchRecentWastesUseCase,
     GetCategoryByIdUseCase,
-    GetFoodByIdUseCase
+    GetFoodByIdUseCase,
+    GetMealByIdUseCase,
+    GetMealItemByIdUseCase,
+    GetWasteByIdUseCase,
+    DeleteCategoryUseCase,
+    DeleteFoodUseCase,
+    DeleteMealUseCase,
+    DeleteMealItemUseCase,
+    DeleteWasteUseCase,
   ],
 })
 export class HttpModule {}

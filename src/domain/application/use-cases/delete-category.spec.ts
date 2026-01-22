@@ -18,7 +18,7 @@ describe('Delete Category', () => {
     await inMemoryCategoriesRepository.create(newCategory);
 
     await sut.execute({
-      id: 'category-1',
+      categoryId: 'category-1',
     });
 
     expect(inMemoryCategoriesRepository.items).toHaveLength(0);

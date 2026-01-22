@@ -9,7 +9,7 @@ const pageQueryParamSchema = z.coerce.number().min(1).default(1);
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
-@Controller('/meal')
+@Controller('/meals')
 export class FetchRecentMealsController {
   constructor(private fetchRecentMeals: FetchRecentMealsUseCase) {}
 

@@ -18,7 +18,7 @@ describe('Get By Id Waste', () => {
     await inMemoryWastesRepository.create(newWaste);
 
     const result = await sut.execute({
-      wasteId: 'waste-1',
+      id: 'waste-1',
     });
 
     expect(result.value).toMatchObject({

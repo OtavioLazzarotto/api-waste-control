@@ -9,7 +9,7 @@ const pageQueryParamSchema = z.coerce.number().min(1).default(1);
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
-@Controller('/waste')
+@Controller('/wastes')
 export class FetchRecentWastesController {
   constructor(private fetchRecentWastes: FetchRecentWastesUseCase) {}
 

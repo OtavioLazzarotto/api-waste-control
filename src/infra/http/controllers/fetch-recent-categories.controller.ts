@@ -15,7 +15,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
 
-@Controller('/category')
+@Controller('/categories')
 export class FetchRecentCategoriesController {
   constructor(private fetchRecentCategories: FetchRecentCategoriesUseCase) {}
 

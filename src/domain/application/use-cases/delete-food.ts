@@ -4,7 +4,7 @@ import { Either, left, right } from '@/core/either';
 import { Injectable } from '@nestjs/common';
 
 interface DeleteFoodUseCaseRequest {
-  id: string;
+  foodId: string;
 }
 
 type DeleteFoodUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -14,9 +14,9 @@ export class DeleteFoodUseCase {
   constructor(private foodsRepository: FoodsRepository) {}
 
   async execute({
-    id,
+    foodId,
   }: DeleteFoodUseCaseRequest): Promise<DeleteFoodUseCaseResponse> {
-    const food = await this.foodsRepository.findById(id);
+    const food = await this.foodsRepository.findById(foodId);
 
     if (!food) {
       return left(new ResourceNotFoundError());

@@ -18,7 +18,7 @@ describe('Delete Food', () => {
     await inMemoryFoodsRepository.create(newFood);
 
     await sut.execute({
-      id: 'food-1',
+      foodId: 'food-1',
     });
 
     expect(inMemoryFoodsRepository.items).toHaveLength(0);

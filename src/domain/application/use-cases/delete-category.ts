@@ -4,7 +4,7 @@ import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-er
 import { Injectable } from '@nestjs/common';
 
 interface DeleteCategoryUseCaseRequest {
-  id: string;
+  categoryId: string;
 }
 
 type DeleteCategoryUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -14,9 +14,9 @@ export class DeleteCategoryUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {}
 
   async execute({
-    id,
+    categoryId,
   }: DeleteCategoryUseCaseRequest): Promise<DeleteCategoryUseCaseResponse> {
-    const category = await this.categoriesRepository.findById(id);
+    const category = await this.categoriesRepository.findById(categoryId);
 
     if (!category) {
       return left(new ResourceNotFoundError());

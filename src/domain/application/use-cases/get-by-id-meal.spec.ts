@@ -18,7 +18,7 @@ describe('Get By Id Meal', () => {
     await inMemoryMealsRepository.create(newMeal);
 
     const result = await sut.execute({
-      mealId: 'meal-1',
+      id: 'meal-1',
     });
 
     expect(result.value).toMatchObject({

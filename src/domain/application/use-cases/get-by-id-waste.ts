@@ -5,7 +5,7 @@ import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-er
 import { Injectable } from '@nestjs/common';
 
 interface GetWasteByIdUseCaseRequest {
-  wasteId: string;
+  id: string;
 }
 
 type GetWasteByIdUseCaseResponse = Either<
@@ -18,9 +18,9 @@ export class GetWasteByIdUseCase {
   constructor(private wastesRepository: WastesRepository) {}
 
   async execute({
-    wasteId,
+    id,
   }: GetWasteByIdUseCaseRequest): Promise<GetWasteByIdUseCaseResponse> {
-    const waste = await this.wastesRepository.findById(wasteId);
+    const waste = await this.wastesRepository.findById(id);
 
     if (!waste) {
       return left(new ResourceNotFoundError());

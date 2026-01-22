@@ -15,7 +15,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
 
-@Controller('/food')
+@Controller('/foods')
 export class FetchRecentFoodsController {
   constructor(private fetchRecentFoods: FetchRecentFoodsUseCase) {}
 
