@@ -6,8 +6,8 @@ import { Injectable } from '@nestjs/common';
 
 interface EditMealUseCaseRequest {
   mealId: string;
-  date: Date;
-  turn: TurnsType;
+  date?: Date;
+  turn?: TurnsType;
 }
 
 type EditMealUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -27,8 +27,13 @@ export class EditMealUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    meal.date = date;
-    meal.turn = turn;
+    if(date) {
+      meal.date = date;
+    }
+
+    if(turn) {
+      meal.turn = turn;
+    }
 
     await this.mealsRepository.save(meal);
 
