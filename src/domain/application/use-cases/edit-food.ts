@@ -6,8 +6,8 @@ import { Injectable } from '@nestjs/common';
 
 interface EditFoodUseCaseRequest {
   foodId: string;
-  name: string;
-  categoryId: string;
+  name?: string;
+  categoryId?: string;
 }
 
 type EditFoodUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -27,8 +27,13 @@ export class EditFoodUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    food.name = name;
-    food.categoryId = new UniqueEntityID(categoryId);
+    if (name) {
+      food.name = name;
+    }
+
+    if (categoryId) {
+      food.categoryId = new UniqueEntityID(categoryId);
+    }
 
     await this.foodsRepository.save(food);
 

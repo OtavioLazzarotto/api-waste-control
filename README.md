@@ -35,9 +35,9 @@ MealItem -  Alimento por refeicao
 
 - TESTES E2E
 
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para FOOD
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para CATEGORY
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para MEAL
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para MEALITEM
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para WASTE
-- [] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para USER
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para FOOD
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para CATEGORY
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para MEAL
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para MEALITEM
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para WASTE
+- [X] Criar testes (E2E) para Create, Delete, Update, GetById, FindByMany para USER

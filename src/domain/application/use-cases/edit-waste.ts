@@ -7,9 +7,9 @@ import { ResourceNotFoundError } from '@/core/erros/errors/resource-not-found-er
 
 interface EditWasteUseCaseRequest {
   wasteId: string;
-  mealItemId: string;
-  quantity: number;
-  reason: ReasonType;
+  mealItemId?: string;
+  quantity?: number;
+  reason?: ReasonType;
 }
 
 type EditWasteUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -30,9 +30,17 @@ export class EditWasteUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    waste.mealItemId = new UniqueEntityID(mealItemId);
-    waste.quantity = quantity;
-    waste.reason = reason;
+    if (mealItemId) {
+      waste.mealItemId = new UniqueEntityID(mealItemId);
+    }
+
+    if (quantity) {
+      waste.quantity = quantity;
+    }
+
+    if (reason) {
+      waste.reason = reason;
+    }
 
     await this.wastesRepository.save(waste);
 

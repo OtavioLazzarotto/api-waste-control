@@ -7,9 +7,9 @@ import { EditWasteUseCase } from "@/domain/application/use-cases/edit-waste";
 
 
 const editWasteBodySchema = z.object({
-    mealItemId: z.uuid(),
-    quantity: z.number(),
-    reason: z.enum(PrismaReasonType),
+    mealItemId: z.uuid().optional(),
+    quantity: z.number().optional(),
+    reason: z.enum(PrismaReasonType).optional(),
 })
 
 const BodyValidationPipe = new ZodValidationPipe(editWasteBodySchema)

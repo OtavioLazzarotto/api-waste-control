@@ -51,6 +51,10 @@ import { EditFoodUseCase } from '@/domain/application/use-cases/edit-food';
 import { EditFoodController } from './controllers/edit-food.controller';
 import { EditMealController } from './controllers/edit-meal-controller';
 import { EditMealUseCase } from '@/domain/application/use-cases/edit-meal';
+import { EditMealItemController } from './controllers/edit-meal-item.controller';
+import { EditMealItemUseCase } from '@/domain/application/use-cases/edit-meal-item';
+import { EditWasteController } from './controllers/edit-waste.controller';
+import { EditWasteUseCase } from '@/domain/application/use-cases/edit-waste';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -79,7 +83,9 @@ import { EditMealUseCase } from '@/domain/application/use-cases/edit-meal';
     DeleteWasteController,
     EditCategoryController,
     EditFoodController,
-    EditMealController
+    EditMealController,
+    EditMealItemController,
+    EditWasteController
   ],
 
   providers: [
@@ -107,7 +113,9 @@ import { EditMealUseCase } from '@/domain/application/use-cases/edit-meal';
     DeleteWasteUseCase,
     EditCategoryUseCase,
     EditFoodUseCase,
-    EditMealUseCase
+    EditMealUseCase,
+    EditMealItemUseCase,
+    EditWasteUseCase
   ],
 })
 export class HttpModule {}

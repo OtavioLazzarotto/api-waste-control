@@ -60,11 +60,11 @@ describe('Edit Meal (E2E)', () => {
       },
     })
 
-    console.log(mealOnDatabase)
+    // console.log(mealOnDatabase)
 
     expect(mealOnDatabase).toEqual(
       expect.objectContaining({
-        date: '2026-01-24T00:00:00.000Z'
+        date: new Date('2026-01-24T00:00:00.000Z')
     })
     )
   });

@@ -1,6 +1,7 @@
 import { TurnsType } from '@/domain/enterprise/entities/meal';
 import { InMemoryMealsRepository } from '../../../../test/repositories/in-memory-meals-repository';
 import { CreateMealUseCase } from './create-meal';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 let inMemoryMealsRepository: InMemoryMealsRepository;
 let sut: CreateMealUseCase;
@@ -15,6 +16,7 @@ describe('Create Meal', () => {
     const result = await sut.execute({
       date: new Date(),
       turn: TurnsType.DINNER,
+      userId: 'meal-1',
     });
 
     expect(result.isRight()).toBe(true);

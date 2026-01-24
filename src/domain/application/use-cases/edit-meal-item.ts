@@ -6,10 +6,10 @@ import { Injectable } from '@nestjs/common';
 
 interface EditMealItemUseCaseRequest {
   mealItemId: string;
-  mealId: string;
-  foodId: string;
-  quantityServed: number;
-  quantityConsumeds: number;
+  mealId?: string;
+  foodId?: string;
+  quantityServed?: number;
+  quantityConsumeds?: number;
 }
 
 type EditMealItemUseCaseResponse = Either<ResourceNotFoundError, {}>;
@@ -31,10 +31,21 @@ export class EditMealItemUseCase {
       return left(new ResourceNotFoundError());
     }
 
-    mealItem.mealId = new UniqueEntityID(mealId);
-    mealItem.foodId = new UniqueEntityID(foodId);
-    mealItem.quantityConsumeds = quantityConsumeds;
-    mealItem.quantityServed = quantityServed;
+    if (mealId) {
+      mealItem.mealId = new UniqueEntityID(mealId);
+    }
+
+    if (foodId) {
+      mealItem.foodId = new UniqueEntityID(foodId);
+    }
+
+    if (quantityServed) {
+      mealItem.quantityServed = quantityServed;
+    }
+
+    if (quantityConsumeds) {
+      mealItem.quantityConsumeds = quantityConsumeds;
+    }
 
     await this.mealItensRepository.save(mealItem);
 

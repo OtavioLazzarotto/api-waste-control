@@ -4,8 +4,8 @@ import { EditFoodUseCase } from '@/domain/application/use-cases/edit-food';
 import { Controller, Body, Param, BadRequestException, Put, HttpCode } from '@nestjs/common';
 
 const editFoodBodySchema = z.object({
-  name: z.string(),
-  categoryId: z.uuid(),
+  name: z.string().optional(),
+  categoryId: z.uuid().optional(),
 });
 
 const bodyValidationPipe = new ZodValidationPipe(editFoodBodySchema);
